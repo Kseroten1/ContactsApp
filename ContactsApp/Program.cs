@@ -17,8 +17,6 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ContactContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ContactCS")));
 builder.Services.AddScoped<IContactsRepository, ContactsRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication().AddBearerToken();
