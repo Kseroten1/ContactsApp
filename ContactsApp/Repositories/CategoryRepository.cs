@@ -29,6 +29,12 @@ public class CategoryRepository : ICategoryRepository
         _ctx.SubCategories.Add(subCategory);
         await _ctx.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<SubCategory>> GetSubCategories()
+    {
+        var subCategories = await _ctx.SubCategories.ToListAsync();
+        return subCategories;
+    }
 }
 
 public interface ICategoryRepository
@@ -36,4 +42,5 @@ public interface ICategoryRepository
     Task<IEnumerable<Category>> GetCategoriesAsync();
     Task<Category?> GetByIdAsync(int id);
     Task AddSubCategory(SubCategory subCategory);
+    Task<IEnumerable<SubCategory>> GetSubCategories();
 }

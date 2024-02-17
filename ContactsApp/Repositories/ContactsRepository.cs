@@ -14,7 +14,7 @@ public class ContactsRepository : IContactsRepository
 
     public async Task<IEnumerable<Contact>> GetAllAsync()
     {
-        var contacts = await _ctx.Contacts.Include(c => c.Category).OrderBy(c => c.LastName).ToListAsync();
+        var contacts = await _ctx.Contacts.Include(c => c.Category).ToListAsync();
         return contacts;
     }
 

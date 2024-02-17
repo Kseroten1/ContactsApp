@@ -2,9 +2,11 @@
 using ContactsApp.Models;
 using ContactsApp.Repositories;
 using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
+using System.Web.Http.Cors;
 
 namespace ContactsApp.Controllers;
 
@@ -19,6 +21,23 @@ public class ContactController : ControllerBase
         _contactsRepository = contactsRepository;
         _categoryRepository = categoryRepository;
     }
+
+    [HttpGet]
+    [Route("Subcategory")]
+    public async Task<IEnumerable<SubCategory>> GetSubCategories()
+    {
+        var subCategories = await _categoryRepository.GetSubCategories();
+        return subCategories;
+    }
+
+    [HttpGet]
+    [Route("Category")]
+    public async Task<IEnumerable<Category>> GetCategories()
+    {
+        var categories = await _categoryRepository.GetCategoriesAsync();
+        return categories;
+    }
+
     [HttpGet]
     public async Task<IEnumerable<GetAllContactsResult>> Get()
     {
@@ -56,7 +75,6 @@ public class ContactController : ControllerBase
     public async Task<ActionResult> Add([FromBody] AddContact newContact)
     {
         var category = await _categoryRepository.GetByIdAsync(newContact.CategoryId);
-
         if (category is null)
         {
             return BadRequest();
@@ -83,7 +101,7 @@ public class ContactController : ControllerBase
             }
         }
 
-        if (_contactsRepository.GetByEmailAsync(newContact.Email) is not null)
+        if (await _contactsRepository.GetByEmailAsync(newContact.Email) is not null)
         {
             return BadRequest();
         }
